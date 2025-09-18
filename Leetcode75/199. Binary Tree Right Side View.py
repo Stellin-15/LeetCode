@@ -1,21 +1,22 @@
-class Solution:
-    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
-        res = []
+from collections import deque
+class Solution(object):
+    def rightSideView(self, root):
+        if not root:
+            return []
 
-        q = deque()
-        q.append(root)
+        result = []
+        q = deque([root])
 
         while q:
-            right_side = None
-
-            for _ in range(len(q)):
+            level_size = len(q)
+            for i in range(level_size):
                 node = q.popleft()
-                if node:
-                    right_side = node
+
+                if i == level_size - 1:
+                    result.append(node.val)
+                if node.left:
                     q.append(node.left)
+                if node.right:
                     q.append(node.right)
-            
-            if right_side:
-                res.append(right_side.val)
         
-        return res
+        return result
