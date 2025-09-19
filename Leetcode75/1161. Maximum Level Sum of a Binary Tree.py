@@ -1,20 +1,27 @@
-class Solution:
-    def maxLevelSum(self, root: Optional[TreeNode]) -> int:
-        q = [root]
-        best = float('-inf')
-        ans, lvl = 1, 1
+from collections import deque
+class Solution(object):
+    def maxLevelSum(self, root):
+        if not root:
+            return 0
+        
+        q = deque([root])
+        best_level = 1
+        level = 1
+        max_sum = float('-inf')
+
         while q:
-            s = 0
-            nq = []
-            for u in q:
-                s += u.val
-                if u.left:
-                    nq.append(u.left)
-                if u.right:
-                    nq.append(u.right)
-            if s > best:
-                best = s
-                ans = lvl
-            q = nq
-            lvl += 1
-        return ans
+            level_sum = 0 
+            for i in range(len(q)):
+                node = q.popleft()
+                level_sum += node.val 
+                if node.left:
+                    q.append(node.left)
+                if node.right:
+                    q.append(node.right)
+            
+            if level_sum > max_sum:
+                max_sum = level_sum 
+                best_level = level 
+            level += 1
+
+        return best_level
