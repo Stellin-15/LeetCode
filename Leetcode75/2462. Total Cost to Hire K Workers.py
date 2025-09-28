@@ -18,8 +18,7 @@ class Solution(object):
 
         for _ in range(k):
             # pick cheapest between left and right
-            if right_heap and (not left_heap or right_heap[0][0] < left_heap[0][0] or
-                               (right_heap[0][0] == left_heap[0][0] and right_heap[0][1] < left_heap[0][1])):
+            if right_heap and (not left_heap or right_heap[0][0] < left_heap[0][0] or (right_heap[0][0] == left_heap[0][0] and right_heap[0][1] < left_heap[0][1])):
                 cost, idx = heapq.heappop(right_heap)
                 total += cost
                 if r >= l:  # refill right
