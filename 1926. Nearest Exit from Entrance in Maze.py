@@ -28,3 +28,17 @@ class Solution(object):
                     q.append([d + 1, nr, nc])
                     vis[nr][nc] = True
         return -1
+    
+
+    class Solution:
+    def findPeakElement(self, nums):
+        left, right = 0, len(nums) - 1
+        
+        while left < right:
+            mid = (left + right) // 2
+            if nums[mid] < nums[mid + 1]:
+                left = mid + 1  # move right
+            else:
+                right = mid      # move left
+                
+        return left  # or right, both are same here
