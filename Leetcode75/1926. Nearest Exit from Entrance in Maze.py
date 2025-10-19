@@ -1,27 +1,44 @@
-from collections import deque
-
 class Solution(object):
     def nearestExit(self, maze, entrance):
-        m , n = len(maze) , len(maze[0])
+        """
+        :type maze: List[List[str]]
+        :type entrance: List[int]
+        :rtype: int
+        """
+        dirs = [[-1, 0], [0, 1], [1, 0], [0, -1]]
+        n, m = len(maze), len(maze[0])
+        
+        vis = [[False for _ in range(m)] for _ in range(n)]
         q = deque()
-        q.append((entrance[0],entrance[1],0))
-        visited = set()
-        visited.add((entrance[0],entrance[1]))
 
-        directions = [(1,0),(-1,0),(0,1),(0,-1)]
+        u, v = entrance[0], entrance[1]
+        vis[u][v] = True
+        q.append([0, u, v])
 
         while q:
-            r,c,steps = q.popleft()
+            [d, r, c] = q.popleft()
+            temp = [r, c]
+            if (r == 0 or c == 0 or r == n - 1 or c == m - 1) and temp != entrance:
+                return d
+            
+            for di in dirs:
+                nr = r + di[0]
+                nc = c + di[1]
+                if nr >= 0 and nr < n and nc >= 0 and nc < m and not vis[nr][nc] and maze[nr][nc] == '.':
+                    q.append([d + 1, nr, nc])
+                    vis[nr][nc] = True
+        return -1
+    
 
-            for dr, dc in directions:
-                nr, nc = r + dr, c + dc
-
-                if 0 <= nr < m and 0 <= nc < n and maze[nr][nc] == "." and (nr,nc) not in visited:
-                    if nr == 0 or nr == m-1 or nc == 0 or nc == n-1 :
-                        return steps + 1
-
-                    visited.add((nr,nc))
-                    q.append((nr,nc,steps+1))
-
-        return -1  
+    class Solution:
+    def findPeakElement(self, nums):
+        left, right = 0, len(nums) - 1
         
+        while left < right:
+            mid = (left + right) // 2
+            if nums[mid] < nums[mid + 1]:
+                left = mid + 1  # move right
+            else:
+                right = mid      # move left
+                
+        return left  # or right, both are same here
